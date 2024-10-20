@@ -34,11 +34,15 @@
 <body>
   <h1>Pizza Order Tracker</h1>
   <ul id="statusList"></ul>
+  <button id="stopUpdatesBtn">Зупинити оновлення</button>
+  <p id="errorMessage"></p>
 
   <script>
 const eventSource = new EventSource('http://localhost:3000/pizza-tracker');
 
     const statusList = document.getElementById('statusList');
+    const errorMessage = document.getElementById('errorMessage');
+    const stopUpdatesBtn = document.getElementById('stopUpdatesBtn');
 
     eventSource.onmessage = function(event) {
       const newStatus = event.data;
@@ -52,7 +56,13 @@ const eventSource = new EventSource('http://localhost:3000/pizza-tracker');
     };
 
     eventSource.onerror = function() {
+      errorMessage.textContent = 'Помилка під час підключення до сервера. Спробуйте пізніше.';
       eventSource.close();
+    };
+
+    eventSource.onerror = function() {
+      eventSource.close();
+      errorMessage.textContent = 'Оновлення зупинено.';
     };
   </script>
 </body>

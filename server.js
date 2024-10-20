@@ -39,6 +39,12 @@ const server = http.createServer((req, res) => {
     res.writeHead(404);
     res.end();
   }
+
+  stopUpdatesBtn.addEventListener('click', function() {
+    eventSource.close(); 
+    errorMessage.textContent = 'Оновлення зупинено.';  
+  });
+  
 });
 
 server.listen(3000, () => {
