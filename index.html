@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizza Order Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      color: #ff6600;
+    }
+    #statusList {
+      margin: 20px auto;
+      padding: 0;
+      list-style-type: none;
+      max-width: 300px;
+    }
+    #statusList li {
+      background-color: #afafaf;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    #statusList li.done {
+      background-color: #00b300;
+      color: rgb(0, 0, 0);
+    }
+  </style>
+</head>
+<body>
+  <h1>Pizza Order Tracker</h1>
+  <ul id="statusList"></ul>
+
+  <script>
+const eventSource = new EventSource('http://localhost:3000/pizza-tracker');
+
+    const statusList = document.getElementById('statusList');
+
+    eventSource.onmessage = function(event) {
+      const newStatus = event.data;
+      const listItem = document.createElement('li');
+      listItem.textContent = newStatus;
+      statusList.appendChild(listItem);
+
+      if (newStatus === 'Замовлення доставлено') {
+        listItem.classList.add('done');
+      }
+    };
+
+    eventSource.onerror = function() {
+      eventSource.close();
+    };
+  </script>
+</body>
+</html>
