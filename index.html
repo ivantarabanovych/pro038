@@ -5,29 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pizza Order Tracker</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+       body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       text-align: center;
     }
+
     h1 {
       color: #ff6600;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      font-weight: bold;
     }
+
     #statusList {
       margin: 20px auto;
       padding: 0;
       list-style-type: none;
-      max-width: 300px;
+      max-width: 350px;
+      width: 100%;
     }
+
     #statusList li {
       background-color: #afafaf;
-      margin: 10px;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 8px;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-size: 1.1rem;
+      transition: transform 0.3s ease, background-color 0.3s ease;
     }
+
     #statusList li.done {
       background-color: #00b300;
-      color: rgb(0, 0, 0);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    button {
+      background-color: #ff6600;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff8533;
+    }
+
+    #errorMessage {
+      margin-top: 20px;
+      color: red;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    #statusList li {
+      animation: fadeIn 1s ease-in-out;
     }
   </style>
 </head>
@@ -64,6 +120,11 @@ const eventSource = new EventSource('http://localhost:3000/pizza-tracker');
       eventSource.close();
       errorMessage.textContent = 'Оновлення зупинено.';
     };
+
+    stopUpdatesBtn.addEventListener('click', function() {
+      eventSource.close();
+      errorMessage.textContent = 'Оновлення зупинено.';
+    });
   </script>
 </body>
 </html>
